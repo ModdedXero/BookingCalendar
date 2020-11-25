@@ -1,12 +1,10 @@
-import React from "react";
-import { format, subMonths, startOfWeek, endOfWeek, addDays, startOfMonth, endOfMonth, isSameMonth, isSameDay, parse, addMonths } from "date-fns";
+import React, { useState } from "react";
+import { format, subMonths, startOfWeek, endOfWeek, addDays, startOfMonth, endOfMonth, isSameMonth, isSameDay, addMonths } from "date-fns";
 import "./App.css";
 
 export default function Calendar() {
-    const currentState = {
-      currentMonth: new Date(),
-      selectedDate: new Date()
-    };
+    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     function renderHeader() {
       const dateFormat = "MMMM yyyy";
@@ -14,17 +12,17 @@ export default function Calendar() {
       return (
         <div className="header row flex-middle">
           <div className="col col-start">
-            <div className="icon" onClick={prevMonth()}>
+            <div className="icon" onClick={prevMonth}>
               chevron_left
             </div>
           </div>
           <div className="col col-center">
             <span>
-              {format(addMonths(currentState.currentMonth, 1), dateFormat)}
+              {format(currentMonth, dateFormat)}
             </span>
           </div>
           <div className="col col-end">
-            <div className="icon" onClick={nextMonth()}>
+            <div className="icon" onClick={nextMonth}>
               chevron_right
             </div>
           </div>
@@ -36,7 +34,7 @@ export default function Calendar() {
       const dateFormat = "EEEE";
       const days = [];
 
-      let startDate = startOfWeek(currentState.currentMonth);
+      let startDate = startOfWeek(currentMonth);
 
       for (let i = 0; i < 7; i++) {
         days.push(
@@ -50,7 +48,6 @@ export default function Calendar() {
     }
 
     function renderCells() {
-      const { currentMonth, selectedDate } = currentState;
       const monthStart = startOfMonth(currentMonth);
       const monthEnd = endOfMonth(monthStart);
       const startDate = startOfWeek(monthStart);
@@ -70,7 +67,7 @@ export default function Calendar() {
           days.push(
             <div className={`col cell ${!isSameMonth(day, monthStart) ? "disabled" : isSameDay(day, selectedDate) ? "selected" : ""}`}
               key={day}
-              onClick={ () => onDateClick(parse(cloneDay))}
+              onClick={ () => onDateClick(cloneDay)}
             >
               <span className="number">{formattedDate}</span>
               <span className="bg">{formattedDate}</span>
@@ -90,15 +87,15 @@ export default function Calendar() {
     }
 
     const onDateClick = day => {
-      currentState.selectedDate = day;
+      setSelectedDate(day);
     }
 
     const nextMonth = () => {
-      currentState.currentMonth = addMonths(currentState.currentMonth, 1);
+      setCurrentMonth(addMonths(currentMonth, 1));
     }
 
     const prevMonth = () => {
-      currentState.currentMonth = subMonths(currentState.currentMonth, 1);
+      setCurrentMonth(subMonths(currentMonth, 1));
     }
 
     return (
