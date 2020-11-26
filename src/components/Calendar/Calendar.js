@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { format, subMonths, startOfWeek, endOfWeek, addDays, startOfMonth, endOfMonth, isSameMonth, isSameDay, addMonths } from "date-fns";
-import "./App.css";
+import "./Calendar.css";
 
 export default function Calendar() {
     const [currentMonth, setCurrentMonth] = useState(new Date());

@@ -4,20 +4,20 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AuthProvider from "../contexts/AuthContext";
 import PrivateRoute from "./PrivateRoute"
 import Dashboard from "./Dashboard";
-import Signup from "./Signup";
-import Login from "./Login";
-import ForgotPassword from "./ForgotPassword";
+import Signup from "./Login/Signup";
+import Login from "./Login/Login";
+import ForgotPassword from "./Login/ForgotPassword";
 import UpdateProfile from "./UpdateProfile";
 
-import Calendar from "./Calendar";
+import Calendar from "./Calendar/Calendar";
+import Navbar from "./Navbar/Navbar";
 
 function App() {
   return (
-      <Container 
-        className="d-flex align-items-center justify-content-center"
-        style={{ minHeight: "100vh" }}
-      >
-        <div className="w-100" style={{ maxWidth: "800px" }}>
+    <>
+      <Navbar />
+      <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }} >
+        <div className="w-100">
           <AuthProvider>
             <Router>
               <Switch>
@@ -32,6 +32,7 @@ function App() {
           </AuthProvider>
         </div>
       </Container>
+      </>
   );
 }
 
